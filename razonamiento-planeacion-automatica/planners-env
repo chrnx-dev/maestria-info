@@ -1,0 +1,7 @@
+export RUNDIR="$(pwd)/rundir"
+export DOMAIN="$RUNDIR/domain.pddl"
+export PROBLEM="$RUNDIR/problem.pddl"
+export PLANFILE="$RUNDIR/sas_plan"
+export COSTBOUND=42 # only in cost-bounded track
+ulimit -t 1800
+ulimit -v 8388608
