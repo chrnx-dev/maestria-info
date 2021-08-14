@@ -3,6 +3,7 @@
 
 $domains_download = <<-SHELL
 mkdir domains
+chown vagrant:vagrant domains
 curl -sSL https://bitbucket.org/ipc2018-classical/domains/get/89741bb4cdd0.zip | bsdtar xvf - --strip-components=1 -C ./domains
 SHELL
 
@@ -13,6 +14,7 @@ SHELL
 
 $create_environment = <<-SHELL
 mkdir rundir
+chown vagrant:vagrant rundir
 wget https://raw.githubusercontent.com/zerooneit/maestria-info/main/razonamiento-planeacion-automatica/planners-env
 
 if [ -f .bashrc ]; then
