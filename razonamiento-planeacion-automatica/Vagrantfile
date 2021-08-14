@@ -2,16 +2,24 @@
 # vi: set ft=ruby :
 
 $domains_download = <<-SHELL
-wget https://bitbucket.org/ipc2018-classical/domains/get/89741bb4cdd0.zip
 mkdir domains
-unzip ./89741bb4cdd0.zip -d domains
-
+curl -sSL https://bitbucket.org/ipc2018-classical/domains/get/89741bb4cdd0.zip | bsdtar xvf - --strip-components=1 -C ./domains
 SHELL
 
 $install_dependencies = <<-SHELL
 apt-get update
-apt-get install vim curl wget unzip git -y
+apt-get install vim curl wget unzip git bsdtar -y
 SHELL
+
+$create_environment = <<-SHELL
+mkdir rundir
+wget https://raw.githubusercontent.com/zerooneit/maestria-info/main/razonamiento-planeacion-automatica/planners-env
+
+if [ -f .bashrc ]; then
+  echo 'source planners-env' >> .bashrc
+fi
+SHELL
+
 
 Vagrant.configure("2") do |config|
   config.vm.box = "sylabs/singularity-3.5-ubuntu-bionic64"
@@ -23,4 +31,5 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: $install_dependencies
   config.vm.provision "shell", inline: $domains_download
+  config.vm.provision "shell", inline: $create_environment
 end
